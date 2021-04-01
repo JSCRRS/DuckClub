@@ -1,27 +1,35 @@
 import { Component } from "react";
+import axios from "../../../axios";
 
 class RegistrationForm extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            // the four user fields
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            error: null,
         };
 
-        // this solve the 'cannot access setState of undefined method
-        // see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind
         this.onInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
     }
     onFormSubmit(event) {
         event.preventDefault();
-        // the axios req
+
+        axios.post("/users", this.state).then((response) => {
+            console.log("[Registration Form] onFormSubmit:", this.state);
+            this.props.onSuccess();
+            console.log(response.data);
+            console.log("[RegistrationForm] login response:", response);
+        });
     }
     onInputChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
         });
-
         // logging this.state will NOT give you the updated state.
         // to access that right away, you can pass a callback as the second argument of this.setState, e.g.:
         // this.setState(newState, () => console.log(this.state) ));
