@@ -3,6 +3,7 @@ import RegistrationForm from "./RegistrationForm";
 export default function Welcome() {
     function onSuccess() {
         console.log("[Welcome] onSuccess: Registered!");
+        window.location.href = "/";
     }
 
     return (

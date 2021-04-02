@@ -6,8 +6,8 @@ class RegistrationForm extends Component {
         super(props);
 
         this.state = {
-            firstName: "",
-            lastName: "",
+            firstname: "",
+            lastname: "",
             email: "",
             password: "",
             error: null,
@@ -19,35 +19,36 @@ class RegistrationForm extends Component {
     onFormSubmit(event) {
         event.preventDefault();
 
-        axios.post("/users", this.state).then((response) => {
-            console.log("[Registration Form] onFormSubmit:", this.state);
-            this.props.onSuccess();
-            console.log(response.data);
-            console.log("[RegistrationForm] login response:", response);
-        });
+        axios
+            .post("/users", this.state)
+            .then((response) => {
+                this.props.onSuccess();
+                this.setState({ error: null });
+            })
+            .catch((error) => {
+                this.setState({ error: error.response.data.message });
+            });
     }
     onInputChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
         });
-        // logging this.state will NOT give you the updated state.
-        // to access that right away, you can pass a callback as the second argument of this.setState, e.g.:
-        // this.setState(newState, () => console.log(this.state) ));
     }
     render() {
         return (
             <div className="registration-form">
+                <p className="error">{this.state.error}</p>
                 <form onSubmit={this.onFormSubmit}>
                     <input
                         type="text"
-                        name="firstName"
+                        name="firstname"
                         placeholder="First name"
                         onChange={this.onInputChange}
                         required
                     />
                     <input
                         type="text"
-                        name="lastName"
+                        name="lastname"
                         placeholder="Last name"
                         onChange={this.onInputChange}
                         required
