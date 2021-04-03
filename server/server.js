@@ -1,16 +1,27 @@
 const express = require("express");
-const app = express();
 const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
 const { compare, hash } = require("../password");
-
+const csurf = require("csurf");
 const { registerUser, getUserByEmail } = require("../db/db");
-const { request } = require("express");
+
+const app = express();
 
 app.use(compression());
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.json());
+
+app.use(
+    express.urlencoded({
+        extended: false,
+    })
+);
+
+app.use((request, response, next) => {
+    response.setHeader("x-frame-options", "deny");
+    next();
+});
 
 app.use(
     cookieSession({
@@ -18,6 +29,12 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 7,
     })
 );
+
+app.use(csurf());
+app.use(function (request, response, next) {
+    response.cookie("mytoken", request.csrfToken());
+    next();
+});
 
 /* ------- REGISTRATION ------- */
 

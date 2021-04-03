@@ -1,5 +1,5 @@
 import { Component } from "react";
-import axios from "../../../axios";
+import axios from "./axios";
 
 class RegistrationForm extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class RegistrationForm extends Component {
 
         axios
             .post("/users", this.state)
-            .then((response) => {
+            .then(() => {
                 this.props.onSuccess();
                 this.setState({ error: null });
             })
