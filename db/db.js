@@ -21,6 +21,13 @@ function registerUser({ firstname, lastname, email, password_hash }) {
         .then((result) => result.rows[0].id);
 }
 
+function getUserByEmail(email) {
+    return db
+        .query("SELECT * FROM users WHERE email = $1", [email])
+        .then((result) => result.rows[0]);
+}
+
 module.exports = {
     registerUser,
+    getUserByEmail,
 };
