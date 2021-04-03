@@ -50,6 +50,8 @@ app.post("/users", (request, response) => {
     });
 });
 
+/* ------- LOGIN ------- */
+
 /* ------- OTHERS ------- */
 
 app.get("*", (request, response) => {
