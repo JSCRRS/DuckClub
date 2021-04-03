@@ -4,7 +4,14 @@ const path = require("path");
 const cookieSession = require("cookie-session");
 const { compare, hash } = require("../password");
 const csurf = require("csurf");
-const { registerUser, getUserByEmail } = require("../db/db");
+const cryptoRandomString = require("crypto-random-string");
+const {
+    registerUser,
+    getUserByEmail,
+    updateUserPassword,
+    createPasswordResetCode,
+    getPasswordResetCodeByEmailAndCode,
+} = require("../db/db");
 
 const app = express();
 
@@ -87,7 +94,6 @@ app.post("/login", (request, response) => {
                 response.json({
                     message: "User not found.",
                 });
-
                 return;
             }
             compare(password, user.password_hash).then((match) => {
@@ -108,11 +114,59 @@ app.post("/login", (request, response) => {
         .catch((error) => {
             response.statusCode = 500;
             console.log("[server.js] post/login error:", error);
-
             response.json({
                 message: "Something went wrong.",
             });
         });
+});
+
+/* ------- RESET PASSWORD ------- */
+
+function sendCode({ email, code }) {
+    console.log("[social:email] sending email with code", email, code);
+}
+
+app.post("/password/reset/start", (request, response) => {
+    const { email } = request.body;
+
+    getUserByEmail(email).then((user) => {
+        if (!user) {
+            response.statusCode = 200; // nötig???
+            response.json({
+                message: "Please check again.",
+            });
+            return;
+        }
+        const code = cryptoRandomString({ length: 6 });
+
+        createPasswordResetCode({ email, code }).then(() => {
+            sendCode({ email, code });
+            response.json({
+                message: "success",
+            });
+        });
+    });
+});
+
+app.post("/password/reset/verify", (request, response) => {
+    const { email, code, password } = request.body;
+
+    getPasswordResetCodeByEmailAndCode({
+        email,
+        code,
+    }).then((storedCode) => {
+        if (!storedCode) {
+            response.statusCode = 400;
+            response.json({
+                message: "Could not send code.",
+            });
+        }
+        updateUserPassword({ email, password }).then(() => {
+            response.json({
+                message: "success",
+            });
+        });
+    });
 });
 
 /* ------- OTHERS ------- */
