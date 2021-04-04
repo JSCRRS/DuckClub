@@ -61,10 +61,19 @@ function getPasswordResetCodeByEmailAndCode({ email, code }) {
         .then((result) => result.rows[0]);
 }
 
+/* ------- PICTURE UPLOAD ------- */
+
+function getUserById(id) {
+    return db
+        .query(`SELECT * FROM users WHERE id = $1`, [id])
+        .then((result) => result.rows[0]);
+}
+
 module.exports = {
     registerUser,
     getUserByEmail,
     updateUserPassword,
     createPasswordResetCode,
     getPasswordResetCodeByEmailAndCode,
+    getUserById,
 };

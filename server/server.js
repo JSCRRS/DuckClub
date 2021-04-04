@@ -11,6 +11,7 @@ const {
     updateUserPassword,
     createPasswordResetCode,
     getPasswordResetCodeByEmailAndCode,
+    getUserById,
 } = require("../db/db");
 
 const app = express();
@@ -166,6 +167,31 @@ app.post("/password/reset/verify", (request, response) => {
             response.json({
                 message: "success",
             });
+        });
+    });
+});
+
+/* ------- PICTURE UPLOAD ------- */
+
+app.get("/user", (request, response) => {
+    const { user_id } = request.session;
+
+    getUserById(user_id).then((user) => {
+        if (!user) {
+            response.statusCode = 500;
+            response.json({
+                message: "Could not find user.",
+            });
+            return;
+        }
+        const { id, firstname, lastname, email, profile_url } = user;
+        response.json({
+            message: "success",
+            id: id,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            profile_url: profile_url,
         });
     });
 });
