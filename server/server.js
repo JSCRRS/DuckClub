@@ -131,7 +131,7 @@ app.post("/password/reset/start", (request, response) => {
 
     getUserByEmail(email).then((user) => {
         if (!user) {
-            response.statusCode = 200; // nötig???
+            response.statusCode = 400;
             response.json({
                 message: "Please check again.",
             });
@@ -160,6 +160,7 @@ app.post("/password/reset/verify", (request, response) => {
             response.json({
                 message: "Could not send code.",
             });
+            return;
         }
         updateUserPassword({ email, password }).then(() => {
             response.json({

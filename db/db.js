@@ -1,3 +1,4 @@
+const { hash } = require("../password");
 const spicedPg = require("spiced-pg");
 
 const database = process.env.DB || "socialNetwork";
@@ -28,12 +29,14 @@ function getUserByEmail(email) {
         .then((result) => result.rows[0]);
 }
 
-function updateUserPassword({ email, password_hash }) {
-    return db.query(
-        `UPDATE users SET password_hash = $1 
-    WHERE email = $2`,
-        [email, password_hash]
-    );
+function updateUserPassword({ email, password }) {
+    return hash(password).then((password_hash) => {
+        db.query(
+            `UPDATE users SET password_hash = $1 
+        WHERE email = $2`,
+            [password_hash, email]
+        );
+    });
 }
 
 function createPasswordResetCode({ email, code }) {
