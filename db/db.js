@@ -69,6 +69,13 @@ function getUserById(id) {
         .then((result) => result.rows[0]);
 }
 
+function updateUserProfile({ id, picUrl }) {
+    return db.query(`UPDATE users SET profile_url = $1 WHERE id = $2`, [
+        picUrl,
+        id,
+    ]);
+}
+
 module.exports = {
     registerUser,
     getUserByEmail,
@@ -76,4 +83,5 @@ module.exports = {
     createPasswordResetCode,
     getPasswordResetCodeByEmailAndCode,
     getUserById,
+    updateUserProfile,
 };

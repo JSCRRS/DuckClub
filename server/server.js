@@ -5,6 +5,9 @@ const cookieSession = require("cookie-session");
 const { compare, hash } = require("../password");
 const csurf = require("csurf");
 const cryptoRandomString = require("crypto-random-string");
+const { s3upload } = require("../s3");
+const { uploader } = require("../upload");
+
 const {
     registerUser,
     getUserByEmail,
@@ -12,6 +15,7 @@ const {
     createPasswordResetCode,
     getPasswordResetCodeByEmailAndCode,
     getUserById,
+    updateUserProfile,
 } = require("../db/db");
 
 const app = express();
@@ -195,6 +199,29 @@ app.get("/user", (request, response) => {
         });
     });
 });
+
+app.post(
+    "/upload_picture",
+    uploader.single("file"),
+    s3upload,
+    (request, response) => {
+        const { user_id } = request.session;
+        const profilePicURL = `https://s3.amazonaws.com/spicedling/${request.file.filename}`;
+
+        //DANN kackt er ab...
+        updateUserProfile({ user_id, profilePicURL })
+            .then(() => {
+                response.json({ profilePicURL });
+            })
+            .catch((error) => {
+                response.statusCode = 500;
+                console.log(
+                    "[SERVER: post/upload_picture] Could not upload file: ",
+                    error
+                );
+            });
+    }
+);
 
 /* ------- OTHERS ------- */
 

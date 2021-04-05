@@ -9,7 +9,7 @@ CREATE TABLE users (
     email           VARCHAR(50) NOT NULL UNIQUE,
     password_hash   VARCHAR NOT NULL,
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    profile_url     TEXT
+    profile_url     TEXT 
 );
 
 CREATE TABLE password_reset_codes (
