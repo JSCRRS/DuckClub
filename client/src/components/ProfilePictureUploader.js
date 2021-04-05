@@ -61,7 +61,7 @@ class ProfilePictureUploader extends Component {
                     </form>
                     <button
                         className="closeButton"
-                        onClick={this.onCloseButtonClick}
+                        onClick={this.props.onClose}
                     >
                         X
                     </button>

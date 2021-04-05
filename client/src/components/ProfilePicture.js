@@ -7,10 +7,9 @@ export default function ProfilePicture({ ...props }) {
         <section className="profilePic">
             <img
                 src={props.profile_url || defaultImageUrl}
-                alt={(props.firstName, props.lastName)}
-                onClick={props.onclick}
+                alt={(props.firstname, props.lastname)}
+                onClick={props.onClick}
             />
         </section>
     );
 }
-//HIER NOCH WAS MIT DER FUNCTION "onProfilePictureClick"????

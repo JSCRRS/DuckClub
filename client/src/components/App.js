@@ -9,11 +9,11 @@ class App extends Component {
         super(props);
         this.state = {
             user: {
-                firstName: "",
+                firstname: "",
                 lastName: "",
                 profile_url: "",
             },
-            showModal: true,
+            showModal: false,
         };
         // bind things!
         this.onProfilePictureClick = this.onProfilePictureClick.bind(this);
@@ -22,26 +22,19 @@ class App extends Component {
     }
 
     componentDidMount() {
-        axios
-            .get("/user", (request, response) => {
-                console.log(
-                    "[App.js: componentDidMount] axios response.data:",
-                    response.data
-                );
-            })
-            .then((data) => {
-                console.log(
-                    "[App.js: componentDidMount] axios then.data:",
-                    data
-                );
-                /* this.setState({ response.data}); */
+        axios.get("/user").then((response) => {
+            console.log("[App componentDidMount] response:", response);
+            this.setState({
+                user: {
+                    firstname: response.data.firstname,
+                    lastname: response.data.lastname,
+                    profile_url: response.data.profile_url,
+                },
             });
-        // GET /user
-        // .then() set the state with the according response.data
+        });
     }
 
     onProfilePictureClick() {
-        console.log("[App] onProfilePictureClick", this);
         this.setState({
             showModal: true,
         });
@@ -70,8 +63,8 @@ class App extends Component {
                 <header>
                     <span className="logo">Logo</span>
                     <ProfilePicture
-                        firstName={this.state.user.firstName}
-                        lastName={this.state.user.lastName}
+                        firstname={this.state.user.firstname}
+                        lastname={this.state.user.lastname}
                         profile_url={this.state.user.profile_url}
                         onClick={this.onProfilePictureClick}
                     />
