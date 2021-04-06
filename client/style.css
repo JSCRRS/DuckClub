@@ -8,6 +8,21 @@ body {
     font-family: BrutGrotesqueBook, Helvetica, Arial, sans-serif;
 }
 
+/* APP HEADER (Logo + profile picture) */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px;
+}
+
+header img {
+    padding: 5px;
+    width: 80px;
+    border: solid 1.5px black;
+    border-radius: 7px;
+}
+
 /* MODAL */
 
 .profile-picture-uploader {

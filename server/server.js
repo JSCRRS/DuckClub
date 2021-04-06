@@ -182,7 +182,7 @@ app.get("/user", (request, response) => {
 
     getUserById(user_id).then((user) => {
         if (!user) {
-            response.statusCode = 500;
+            response.statusCode = 404;
             response.json({
                 message: "Could not find user.",
             });
@@ -190,7 +190,6 @@ app.get("/user", (request, response) => {
         }
         const { id, firstname, lastname, email, profile_url } = user;
         response.json({
-            message: "success",
             id: id,
             firstname: firstname,
             lastname: lastname,

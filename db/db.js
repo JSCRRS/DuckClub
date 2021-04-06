@@ -69,10 +69,10 @@ function getUserById(id) {
         .then((result) => result.rows[0]);
 }
 
-function updateUserProfile({ id, picUrl }) {
+function updateUserProfile({ user_id, profilePicURL }) {
     return db.query(`UPDATE users SET profile_url = $1 WHERE id = $2`, [
-        picUrl,
-        id,
+        profilePicURL,
+        user_id,
     ]);
 }
 

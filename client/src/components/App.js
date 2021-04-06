@@ -41,13 +41,12 @@ class App extends Component {
     }
 
     onUpload(newProfilePicURL) {
-        // set the state accordingly
-        // remember to user destructuring:
         this.setState({
             user: {
-                ...this.state.user, // what the user was before
+                ...this.state.user,
                 profile_url: newProfilePicURL,
             },
+            showModal: false,
         });
     }
 
@@ -61,7 +60,7 @@ class App extends Component {
         return (
             <section className="app">
                 <header>
-                    <span className="logo">Logo</span>
+                    <span className="logo">Hee Hee</span>
                     <ProfilePicture
                         firstname={this.state.user.firstname}
                         lastname={this.state.user.lastname}
