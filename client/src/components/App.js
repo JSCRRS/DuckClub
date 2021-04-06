@@ -3,6 +3,7 @@ import axios from "./axios";
 
 import ProfilePicture from "./ProfilePicture";
 import ProfilePictureUploader from "./ProfilePictureUploader";
+import Profile from "./Profile";
 
 class App extends Component {
     constructor(props) {
@@ -10,7 +11,7 @@ class App extends Component {
         this.state = {
             user: {
                 firstname: "",
-                lastName: "",
+                lastname: "",
                 profile_url: "",
             },
             showModal: false,
@@ -68,6 +69,14 @@ class App extends Component {
                         onClick={this.onProfilePictureClick}
                     />
                 </header>
+                <div className="profile">
+                    <Profile
+                        firstname={this.state.user.firstname}
+                        lastname={this.state.user.lastname}
+                        profile_url={this.state.user.profile_url}
+                        onClick={this.onProfilePictureClick}
+                    />
+                </div>
                 <div>{this.renderModal()}</div>
             </section>
         );

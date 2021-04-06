@@ -62,3 +62,13 @@ header img {
     cursor: pointer;
     outline: inherit;
 }
+
+/* PROFILE */
+
+.profile {
+    display: flex;
+}
+
+.profile img {
+    width: 200px;
+}
