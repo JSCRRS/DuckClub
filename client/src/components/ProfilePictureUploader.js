@@ -39,8 +39,17 @@ class ProfilePictureUploader extends Component {
 
     render() {
         return (
-            <div className="profile-picture-uploader modal">
-                <div className="modal-content form">
+            <div
+                onClick={this.props.onClose}
+                className="profile-picture-uploader modal"
+            >
+                <div
+                    onClick={(event) => {
+                        event.stopPropagation();
+                    }}
+                    className="modal-content form"
+                >
+                    <h2>Change your image here</h2>
                     <form onSubmit={this.onSubmit}>
                         <input
                             type="file"
