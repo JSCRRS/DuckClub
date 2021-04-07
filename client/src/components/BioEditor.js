@@ -5,10 +5,12 @@ class BioEditor extends Component {
         super(props);
         this.state = {
             bioText: "",
+            editingMode: false,
         };
 
         this.onBioSubmit = this.onBioSubmit.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
+        this.onEditModeOpen = this.onEditModeOpen.bind(this);
     }
     onBioSubmit(event) {
         event.preventDefault();
@@ -17,6 +19,7 @@ class BioEditor extends Component {
         const { onBioSave } = this.props;
 
         onBioSave(bioText);
+        this.onEditModeClose();
     }
 
     onInputChange(event) {
@@ -26,31 +29,59 @@ class BioEditor extends Component {
         });
     }
 
-    try1() {
-        console.log("Try 1: WAHR");
+    onEditModeOpen() {
+        this.setState({
+            editingMode: true,
+        });
     }
 
-    try2() {
-        console.log("Try 2: FALSCH");
+    onEditModeClose() {
+        this.setState({
+            editingMode: false,
+        });
     }
 
     render() {
-        const { props } = this;
-
-        props ? this.try1 : this.try2;
-
         return (
-            <div>
-                <form className="bioEditor" onSubmit={this.onBioSubmit}>
-                    <textarea
-                        onChange={this.onInputChange}
-                        defaultValue={this.props.bio}
-                        required
-                    />
-                    <button type="submit">Add</button>
-                </form>
-            </div>
+            <>
+                <div className="bioOptions">{this.renderBioOptions()}</div>
+                <div className="editBio">{this.renderEditBio()}</div>
+            </>
         );
+    }
+
+    renderBioOptions() {
+        if (this.props.bio) {
+            return (
+                <>
+                    <p>{this.props.bio}</p>
+                    <button onClick={this.onEditModeOpen}>Edit Bio</button>
+                </>
+            );
+        }
+        return (
+            <>
+                <p>No personal information yet.</p>
+                <button onClick={this.onEditModeOpen}>Add Bio</button>
+            </>
+        );
+    }
+
+    renderEditBio() {
+        if (this.state.editingMode) {
+            return (
+                <>
+                    <form className="bioEditor" onSubmit={this.onBioSubmit}>
+                        <textarea
+                            onChange={this.onInputChange}
+                            defaultValue={this.props.bio}
+                            required
+                        />
+                        <button type="submit">Save</button>
+                    </form>
+                </>
+            );
+        }
     }
 }
 

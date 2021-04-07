@@ -17,7 +17,6 @@ class App extends Component {
             },
             showModal: false,
         };
-        // bind things!
         this.onProfilePictureClick = this.onProfilePictureClick.bind(this);
         this.onUpload = this.onUpload.bind(this);
         this.onModalClose = this.onModalClose.bind(this);
@@ -72,7 +71,6 @@ class App extends Component {
     }
 
     render() {
-        console.log("[App] state:", this.state);
         //hier könnte man destructuring: const {firstname, etc.} = this.state.user
         // --> dann kann man schreiben: firstname={firstname}
         return (
