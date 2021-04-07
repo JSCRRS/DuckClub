@@ -21,6 +21,7 @@ class App extends Component {
         this.onProfilePictureClick = this.onProfilePictureClick.bind(this);
         this.onUpload = this.onUpload.bind(this);
         this.onModalClose = this.onModalClose.bind(this);
+        this.onBioSave = this.onBioSave.bind(this);
     }
 
     componentDidMount() {
@@ -59,12 +60,14 @@ class App extends Component {
         });
     }
 
-    onBioSave(newBioText) {
-        this.setState({
-            user: {
-                ...this.state.user,
-                bio: newBioText,
-            },
+    onBioSave(bioText) {
+        axios.put("/user", { bioText }).then(() => {
+            this.setState({
+                user: {
+                    ...this.state.user,
+                    bio: bioText,
+                },
+            });
         });
     }
 

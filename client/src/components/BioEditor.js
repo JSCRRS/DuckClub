@@ -1,5 +1,4 @@
 import { Component } from "react";
-import axios from "./axios";
 
 class BioEditor extends Component {
     constructor(props) {
@@ -15,14 +14,9 @@ class BioEditor extends Component {
         event.preventDefault();
 
         const { bioText } = this.state;
-        console.log("[BioEditor: onSubmit] bioText: ", bioText);
+        const { onBioSave } = this.props;
 
-        axios.put("/user", { bioText }).then((response) => {
-            console.log(
-                "[BioEditor] axios.put --> response.data:",
-                response.data
-            );
-        });
+        onBioSave(bioText);
     }
 
     onInputChange(event) {
@@ -42,7 +36,6 @@ class BioEditor extends Component {
 
     render() {
         const { props } = this;
-        console.log("[BioEditor] props:", props);
 
         props ? this.try1 : this.try2;
 
@@ -50,9 +43,8 @@ class BioEditor extends Component {
             <div>
                 <form className="bioEditor" onSubmit={this.onBioSubmit}>
                     <textarea
-                        type="text"
                         onChange={this.onInputChange}
-                        biotext={this.bioText}
+                        defaultValue={this.props.bio}
                         required
                     />
                     <button type="submit">Add</button>

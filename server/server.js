@@ -229,15 +229,14 @@ app.put("/user", (request, response) => {
     const { user_id } = request.session;
     const { bioText } = request.body;
 
-    console.log("[server] app.put: user_id", user_id);
-    console.log("[server] app.put: bioText", bioText);
-
-    updateUserBio({ user_id, bioText }).then(() => {
-        response.json({ bioText }).catch((error) => {
+    updateUserBio({ user_id, bioText })
+        .then(() => {
+            response.json({ bioText });
+        })
+        .catch((error) => {
             response.statusCode = 500;
             console.log("[SERVER: put/user] Could not get bioText: ", error);
         });
-    });
 });
 
 /* ------- OTHERS ------- */
