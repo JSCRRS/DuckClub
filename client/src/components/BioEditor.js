@@ -4,41 +4,61 @@ import axios from "./axios";
 class BioEditor extends Component {
     constructor(props) {
         super(props);
-        /* this.state = {
-            file: null,
+        this.state = {
+            bioText: "",
         };
 
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onChange = this.onChange.bind(this); */
+        this.onBioSubmit = this.onBioSubmit.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
     }
-    /*     onSubmit(event) {
+    onBioSubmit(event) {
         event.preventDefault();
 
-        console.log("[ProfilePictureUploader: onSubmit] event: ", event);
+        const { bioText } = this.state;
+        console.log("[BioEditor: onSubmit] bioText: ", bioText);
 
-        const formData = new FormData();
-        formData.append("file", this.state.file);
-
-        axios
-            .post("/upload_picture", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            .then((response) => {
-                console.log(
-                    "[ProfilePictureUploader: post/upload_profile] response.data:",
-                    response.data
-                );
-                this.props.onUpload(response.data.profilePicURL);
-            });
+        axios.put("/user", { bioText }).then((response) => {
+            console.log(
+                "[BioEditor] axios.put --> response.data:",
+                response.data
+            );
+        });
     }
-    onChange(event) {
-        this.setState({ file: event.target.files[0] });
-    } */
+
+    onInputChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value,
+            bioText: event.target.value,
+        });
+    }
+
+    try1() {
+        console.log("Try 1: WAHR");
+    }
+
+    try2() {
+        console.log("Try 2: FALSCH");
+    }
 
     render() {
-        return <div></div>;
+        const { props } = this;
+        console.log("[BioEditor] props:", props);
+
+        props ? this.try1 : this.try2;
+
+        return (
+            <div>
+                <form className="bioEditor" onSubmit={this.onBioSubmit}>
+                    <textarea
+                        type="text"
+                        onChange={this.onInputChange}
+                        biotext={this.bioText}
+                        required
+                    />
+                    <button type="submit">Add</button>
+                </form>
+            </div>
+        );
     }
 }
 

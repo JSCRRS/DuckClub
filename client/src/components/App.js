@@ -13,6 +13,7 @@ class App extends Component {
                 firstname: "",
                 lastname: "",
                 profile_url: "",
+                bio: "",
             },
             showModal: false,
         };
@@ -30,6 +31,7 @@ class App extends Component {
                     firstname: response.data.firstname,
                     lastname: response.data.lastname,
                     profile_url: response.data.profile_url,
+                    bio: response.data.bio,
                 },
             });
         });
@@ -57,7 +59,19 @@ class App extends Component {
         });
     }
 
+    onBioSave(newBioText) {
+        this.setState({
+            user: {
+                ...this.state.user,
+                bio: newBioText,
+            },
+        });
+    }
+
     render() {
+        console.log("[App] state:", this.state);
+        //hier könnte man destructuring: const {firstname, etc.} = this.state.user
+        // --> dann kann man schreiben: firstname={firstname}
         return (
             <section className="app">
                 <header>
@@ -75,6 +89,8 @@ class App extends Component {
                         lastname={this.state.user.lastname}
                         profile_url={this.state.user.profile_url}
                         onClick={this.onProfilePictureClick}
+                        bio={this.state.user.bio}
+                        onBioSave={this.onBioSave}
                     />
                 </div>
                 <div>{this.renderModal()}</div>

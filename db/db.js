@@ -76,6 +76,15 @@ function updateUserProfile({ user_id, profilePicURL }) {
     ]);
 }
 
+/* ------- BIO UPDATE ------- */
+
+function updateUserBio({ user_id, bioText }) {
+    return db.query(`UPDATE users SET bio = $1 WHERE id = $2`, [
+        bioText,
+        user_id,
+    ]);
+}
+
 module.exports = {
     registerUser,
     getUserByEmail,
@@ -84,4 +93,5 @@ module.exports = {
     getPasswordResetCodeByEmailAndCode,
     getUserById,
     updateUserProfile,
+    updateUserBio,
 };

@@ -1,7 +1,14 @@
 import ProfilePicture from "./ProfilePicture";
 import BioEditor from "./BioEditor";
 
-export default function Profile({ firstname, lastname, profile_url, onClick }) {
+export default function Profile({
+    firstname,
+    lastname,
+    profile_url,
+    onClick,
+    bio,
+    onBioSave,
+}) {
     return (
         <section className="profile">
             <ProfilePicture
@@ -11,8 +18,10 @@ export default function Profile({ firstname, lastname, profile_url, onClick }) {
                 onClick={onClick}
             />
             <div className="profile-details">
-                <p>USER NAME</p>
-                <BioEditor />
+                <p>
+                    {firstname} {lastname}
+                </p>
+                <BioEditor bio={bio} onBioSave={onBioSave} />
             </div>
         </section>
     );

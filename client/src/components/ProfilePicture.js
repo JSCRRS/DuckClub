@@ -1,8 +1,8 @@
 export default function ProfilePicture({ ...props }) {
     const defaultImageUrl = "https://via.placeholder.com/150";
 
-    console.log("[ProfilePicture] props:", props);
-
+    /*     console.log("[ProfilePicture] props:", props);
+     */
     return (
         <section className="profilePic">
             <img

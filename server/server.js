@@ -16,6 +16,7 @@ const {
     getPasswordResetCodeByEmailAndCode,
     getUserById,
     updateUserProfile,
+    updateUserBio,
 } = require("../db/db");
 
 const app = express();
@@ -188,13 +189,14 @@ app.get("/user", (request, response) => {
             });
             return;
         }
-        const { id, firstname, lastname, email, profile_url } = user;
+        const { id, firstname, lastname, email, profile_url, bio } = user;
         response.json({
             id: id,
             firstname: firstname,
             lastname: lastname,
             email: email,
             profile_url: profile_url,
+            bio: bio,
         });
     });
 });
@@ -207,7 +209,6 @@ app.post(
         const { user_id } = request.session;
         const profilePicURL = `https://s3.amazonaws.com/spicedling/${request.file.filename}`;
 
-        //DANN kackt er ab...
         updateUserProfile({ user_id, profilePicURL })
             .then(() => {
                 response.json({ profilePicURL });
@@ -221,6 +222,23 @@ app.post(
             });
     }
 );
+
+/* ------- BIO ------- */
+
+app.put("/user", (request, response) => {
+    const { user_id } = request.session;
+    const { bioText } = request.body;
+
+    console.log("[server] app.put: user_id", user_id);
+    console.log("[server] app.put: bioText", bioText);
+
+    updateUserBio({ user_id, bioText }).then(() => {
+        response.json({ bioText }).catch((error) => {
+            response.statusCode = 500;
+            console.log("[SERVER: put/user] Could not get bioText: ", error);
+        });
+    });
+});
 
 /* ------- OTHERS ------- */
 

@@ -30,7 +30,8 @@ class ProfilePictureUploader extends Component {
                     "[ProfilePictureUploader: post/upload_profile] response.data:",
                     response.data
                 );
-                this.props.onUpload(response.data.profilePicURL);
+                /*                 this.props.onUpload(response.data.profilePicURL);
+                 */
             });
     }
     onChange(event) {
