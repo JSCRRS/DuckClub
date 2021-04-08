@@ -18,6 +18,7 @@ const {
     updateUserProfile,
     updateUserBio,
 } = require("../db/db");
+const { ids } = require("webpack");
 
 const app = express();
 
@@ -237,6 +238,42 @@ app.put("/user", (request, response) => {
             response.statusCode = 500;
             console.log("[SERVER: put/user] Could not get bioText: ", error);
         });
+});
+
+/* ------- OtherProfile Data ------- */
+
+app.get("/users/:user_id", (request, response) => {
+    console.log("[server] OtherProfile - request.params", request.params);
+
+    const { user_id } = request.session;
+    const { id } = request.params;
+
+    if (user_id === id) {
+        response.statusCode = 400;
+        response.json({
+            message: "See your profile at '/' for your information.",
+        });
+        return;
+    }
+
+    getUserById({ id: user_id }).then((user) => {
+        if (!user) {
+            response.statusCode = 404;
+            response.json({
+                message: "Could not find user.",
+            });
+            return;
+        }
+        const { id, firstname, lastname, email, profile_url, bio } = user;
+        response.json({
+            id: id,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            profile_url: profile_url,
+            bio: bio,
+        });
+    });
 });
 
 /* ------- OTHERS ------- */

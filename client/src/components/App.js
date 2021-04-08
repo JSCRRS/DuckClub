@@ -5,6 +5,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import ProfilePicture from "./ProfilePicture";
 import ProfilePictureUploader from "./ProfilePictureUploader";
 import Profile from "./Profile";
+import OtherProfile from "./OtherProfile";
 
 class App extends Component {
     constructor(props) {
@@ -26,7 +27,6 @@ class App extends Component {
 
     componentDidMount() {
         axios.get("/user").then((response) => {
-            console.log("[App componentDidMount] response:", response);
             this.setState({
                 user: {
                     firstname: response.data.firstname,
@@ -97,10 +97,15 @@ class App extends Component {
                                 onBioSave={this.onBioSave}
                             />
                         </Route>
+
                         <Route
                             path="/user/:id"
                             render={(props) => (
-                                <p>Profile of user: {props.match.params.id}</p>
+                                <OtherProfile
+                                    id={props.match.params.id}
+                                    key={props.match.url}
+                                    history={props.history}
+                                />
                             )}
                         />
                     </div>
