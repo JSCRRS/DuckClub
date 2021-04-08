@@ -1,5 +1,6 @@
 import { Component } from "react";
 import axios from "./axios";
+import { BrowserRouter, Route } from "react-router-dom";
 
 import ProfilePicture from "./ProfilePicture";
 import ProfilePictureUploader from "./ProfilePictureUploader";
@@ -74,28 +75,38 @@ class App extends Component {
         //hier könnte man destructuring: const {firstname, etc.} = this.state.user
         // --> dann kann man schreiben: firstname={firstname}
         return (
-            <section className="app">
-                <header>
-                    <span className="logo">Hee Hee</span>
-                    <ProfilePicture
-                        firstname={this.state.user.firstname}
-                        lastname={this.state.user.lastname}
-                        profile_url={this.state.user.profile_url}
-                        onClick={this.onProfilePictureClick}
-                    />
-                </header>
-                <div className="profile">
-                    <Profile
-                        firstname={this.state.user.firstname}
-                        lastname={this.state.user.lastname}
-                        profile_url={this.state.user.profile_url}
-                        onClick={this.onProfilePictureClick}
-                        bio={this.state.user.bio}
-                        onBioSave={this.onBioSave}
-                    />
-                </div>
-                <div>{this.renderModal()}</div>
-            </section>
+            <BrowserRouter>
+                <section className="app">
+                    <header>
+                        <span className="logo">Hee Hee</span>
+                        <ProfilePicture
+                            firstname={this.state.user.firstname}
+                            lastname={this.state.user.lastname}
+                            profile_url={this.state.user.profile_url}
+                            onClick={this.onProfilePictureClick}
+                        />
+                    </header>
+                    <div className="profile">
+                        <Route path="/" exact>
+                            <Profile
+                                firstname={this.state.user.firstname}
+                                lastname={this.state.user.lastname}
+                                profile_url={this.state.user.profile_url}
+                                onClick={this.onProfilePictureClick}
+                                bio={this.state.user.bio}
+                                onBioSave={this.onBioSave}
+                            />
+                        </Route>
+                        <Route
+                            path="/user/:id"
+                            render={(props) => (
+                                <p>Profile of user: {props.match.params.id}</p>
+                            )}
+                        />
+                    </div>
+                    <div>{this.renderModal()}</div>
+                </section>
+            </BrowserRouter>
         );
     }
 
