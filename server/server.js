@@ -243,12 +243,9 @@ app.put("/user", (request, response) => {
 /* ------- OtherProfile Data ------- */
 
 app.get("/users/:user_id", (request, response) => {
-    console.log("[server] OtherProfile - request.params", request.params);
+    const user_id = request.params.user_id;
 
-    const { user_id } = request.session;
-    const { id } = request.params;
-
-    if (user_id === id) {
+    if (request.session.user_id == request.params.user_id) {
         response.statusCode = 400;
         response.json({
             message: "See your profile at '/' for your information.",
@@ -256,7 +253,7 @@ app.get("/users/:user_id", (request, response) => {
         return;
     }
 
-    getUserById({ id: user_id }).then((user) => {
+    getUserById(user_id).then((user) => {
         if (!user) {
             response.statusCode = 404;
             response.json({
@@ -264,12 +261,11 @@ app.get("/users/:user_id", (request, response) => {
             });
             return;
         }
-        const { id, firstname, lastname, email, profile_url, bio } = user;
+        const { id, firstname, lastname, profile_url, bio } = user;
         response.json({
             id: id,
             firstname: firstname,
             lastname: lastname,
-            email: email,
             profile_url: profile_url,
             bio: bio,
         });
