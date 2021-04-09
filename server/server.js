@@ -17,8 +17,8 @@ const {
     getUserById,
     updateUserProfile,
     updateUserBio,
+    getLatestUsers,
 } = require("../db/db");
-const { ids } = require("webpack");
 
 const app = express();
 
@@ -270,6 +270,19 @@ app.get("/users/:user_id", (request, response) => {
             bio: bio,
         });
     });
+});
+
+/* ------- FindPeople Data ------- */
+
+app.get("/users/most-recent", (request, response) => {
+    console.log(request.session);
+    const number = 3;
+    getLatestUsers(number)
+        .then((latestUsers) => console.log(latestUsers))
+        .catch((error) => {
+            response.statusCode = 500;
+            console.log("[SERVER: most-recent] Could not get users: ", error);
+        });
 });
 
 /* ------- OTHERS ------- */

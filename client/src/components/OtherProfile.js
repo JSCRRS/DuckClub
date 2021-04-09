@@ -54,7 +54,7 @@ class OtherProfile extends Component {
                 <p>
                     {this.state.user.firstname} {this.state.user.lastname}
                 </p>
-                <p>{this.state.user.bio}</p>
+                <p>{this.state.user.bio || "No bio yet"}</p>
                 <img src={this.state.user.profile_url} />
             </>
         );
