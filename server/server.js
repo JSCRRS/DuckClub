@@ -240,9 +240,21 @@ app.put("/user", (request, response) => {
         });
 });
 
+/* ------- FindPeople Data ------- */
+
+app.get("/users/most-recent", (request, response) => {
+    const number = 3;
+    getLatestUsers(number)
+        .then((latestUsers) => response.json({ latestUsers }))
+        .catch((error) => {
+            response.statusCode = 500;
+            console.log("[SERVER: most-recent] Could not get users: ", error);
+        });
+});
+
 /* ------- OtherProfile Data ------- */
 
-app.get("/users/:user_id", (request, response) => {
+app.get("/api/users/:user_id", (request, response) => {
     const user_id = request.params.user_id;
 
     if (request.session.user_id == request.params.user_id) {
@@ -270,19 +282,6 @@ app.get("/users/:user_id", (request, response) => {
             bio: bio,
         });
     });
-});
-
-/* ------- FindPeople Data ------- */
-
-app.get("/users/most-recent", (request, response) => {
-    console.log(request.session);
-    const number = 3;
-    getLatestUsers(number)
-        .then((latestUsers) => console.log(latestUsers))
-        .catch((error) => {
-            response.statusCode = 500;
-            console.log("[SERVER: most-recent] Could not get users: ", error);
-        });
 });
 
 /* ------- OTHERS ------- */

@@ -18,7 +18,7 @@ class OtherProfile extends Component {
 
     componentDidMount() {
         axios
-            .get(`/users/${this.props.id}`)
+            .get(`/api/users/${this.props.id}`)
             .then((response) => {
                 const {
                     id,

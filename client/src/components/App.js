@@ -111,9 +111,7 @@ class App extends Component {
                         />
                     </div>
 
-                    <Route path="/users">
-                        <FindPeople />
-                    </Route>
+                    <Route path="/users" render={() => <FindPeople />} />
 
                     <div>{this.renderModal()}</div>
                 </section>

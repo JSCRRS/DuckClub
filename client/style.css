@@ -72,3 +72,13 @@ header img {
 .profile img {
     width: 200px;
 }
+
+/* FIND PEOPLE */
+
+.find-people ul {
+    list-style: none;
+}
+
+.find-people img {
+    width: 100px;
+}

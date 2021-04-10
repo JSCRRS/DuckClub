@@ -89,9 +89,12 @@ function updateUserBio({ user_id, bioText }) {
 
 function getLatestUsers(number) {
     return db
-        .query(`SELECT * FROM users ORDER BY id DESC LIMIT $1`, [number || 4])
-        .then((result) => result.rows)
-        .catch((error) => console.log("[db] getLatestUser error", error));
+        .query(
+            `SELECT id, firstname, lastname, profile_url 
+            FROM users ORDER BY id DESC LIMIT $1`,
+            [number || 4]
+        )
+        .then((result) => result.rows);
 }
 
 module.exports = {
