@@ -126,6 +126,23 @@ function getFriendship({ first_id, second_id }) {
 }
 
 function createFriendship({ sender_id, recipient_id }) {
+    console.log(
+        "[db] createFriendship sender_id, recipient_id:",
+        sender_id,
+        recipient_id
+    );
+    return db
+        .query(
+            `INSERT INTO friendships (sender_id, recipient_id)
+            VALUES ($1, $2)
+            `,
+            [sender_id, recipient_id]
+        )
+        .then((result) => {
+            console.log("[db] insert result:", result);
+            return result.rows[0];
+        });
+
     // just insert values sender_id, recipient_id
 }
 

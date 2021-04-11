@@ -329,6 +329,36 @@ app.get("/friendships/:user_id", (request, response) => {
     });
 });
 
+app.post("/friendships", (request, response) => {
+    const sender_id = request.session.user_id;
+    const recipient_id = request.params.user_id;
+
+    getFriendship({ sender_id, recipient_id }).then((status) => {
+        //hoffentlich geht das mit den Parameter-Bezeichnungen...
+        if (status) {
+            response.statusCode = 400;
+            response.json({
+                message: "Already friends.",
+            });
+            return;
+        }
+        createFriendship({ sender_id, recipient_id })
+            .then((result) => {
+                console.log("[server] createFriendship result:", result);
+                response.json({
+                    result,
+                });
+            })
+            .catch((error) => {
+                console.log("[server] createFriendship error:", error);
+                response.statusCode = 500;
+                response.json({
+                    message: "Could not create friendship.",
+                });
+            });
+    });
+});
+
 /* ------- OTHERS ------- */
 
 app.get("*", (request, response) => {

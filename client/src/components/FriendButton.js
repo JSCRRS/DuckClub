@@ -6,9 +6,11 @@ export default function FriendButton({ id }) {
     const [friendship, setFriendship] = useState(false);
 
     useEffect(() => {
+        console.log("USE EFFECT 1", friendship); //false
+
         axios
             .get(`/friendships/${id}`)
-            .then((response) => {
+            .then(() => {
                 setFriendship(true);
             })
             .catch((error) => {
@@ -17,6 +19,7 @@ export default function FriendButton({ id }) {
                         "[FriendButton] no friendship status found: ",
                         error
                     );
+                    console.log("USE EFFECT axios nach 404: ", friendship); //???
                     return;
                 }
                 console.log("something went wrong", error);
@@ -24,17 +27,27 @@ export default function FriendButton({ id }) {
     }, [id]);
 
     useEffect(() => {
+        console.log("USE EFFECT2 (vor setButtonText): ", friendship); //???
+
         if (!friendship) {
             setButtonText("Send FRIENDSHIP request");
             return;
         }
-    });
+        setButtonText("Cancel your request");
+    }, []);
 
     // another useEffect() depending on the rest of the state is necessary
     // in order to set the button text
 
     function onClick() {
-        console.log("click");
+        console.log("FRIENDSHIP onClick:", friendship);
+        if (!friendship) {
+            axios.post("/friendships").then((response) => {
+                console.log("[FriendButton] post onClick: ", response.data);
+                //setFriendship(true);
+            });
+            return;
+        }
         // based on the current state, make the right POST / PUT / DELETE call
     }
 
