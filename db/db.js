@@ -97,6 +97,18 @@ function getLatestUsers(number) {
         .then((result) => result.rows);
 }
 
+/* ------- GET Query USERS ------- */
+
+function getQueryMatches(q) {
+    return db
+        .query(
+            `SELECT id, firstname, lastname FROM users 
+            WHERE firstname ILIKE $1 OR lastname ILIKE $1`,
+            [q + "%"]
+        )
+        .then((results) => results.rows);
+}
+
 module.exports = {
     registerUser,
     getUserByEmail,
@@ -107,4 +119,5 @@ module.exports = {
     updateUserProfile,
     updateUserBio,
     getLatestUsers,
+    getQueryMatches,
 };

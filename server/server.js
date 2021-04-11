@@ -18,6 +18,7 @@ const {
     updateUserProfile,
     updateUserBio,
     getLatestUsers,
+    getQueryMatches,
 } = require("../db/db");
 
 const app = express();
@@ -250,6 +251,28 @@ app.get("/users/most-recent", (request, response) => {
             response.statusCode = 500;
             console.log("[SERVER: most-recent] Could not get users: ", error);
         });
+});
+
+app.get("/users/search", (request, response) => {
+    const { q } = request.query;
+
+    if (!q) {
+        response.statusCode = 400;
+        response.json({
+            message: "q in query needed.",
+        });
+        return;
+    }
+    getQueryMatches(q).then((queryResults) => {
+        if (!queryResults) {
+            response.statusCode = 404;
+            response.json({
+                message: "Could not find user.",
+            });
+            return;
+        }
+        response.json({ queryResults });
+    });
 });
 
 /* ------- OtherProfile Data ------- */
