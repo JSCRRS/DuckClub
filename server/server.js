@@ -19,6 +19,10 @@ const {
     updateUserBio,
     getLatestUsers,
     getQueryMatches,
+    getFriendship,
+    createFriendship,
+    updateFriendship,
+    deleteFriendship,
 } = require("../db/db");
 
 const app = express();
@@ -304,6 +308,24 @@ app.get("/api/users/:user_id", (request, response) => {
             profile_url: profile_url,
             bio: bio,
         });
+    });
+});
+
+/* ------- FRIENDSHIP BUTTON Data ------- */
+
+app.get("/friendships/:user_id", (request, response) => {
+    const first_id = request.session.user_id;
+    const second_id = request.params.user_id;
+
+    getFriendship({ first_id, second_id }).then((status) => {
+        if (!status) {
+            response.statusCode = 404;
+            response.json({
+                message: "No status available.",
+            });
+            return;
+        }
+        response.json(status);
     });
 });
 

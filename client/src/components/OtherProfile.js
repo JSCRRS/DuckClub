@@ -1,5 +1,6 @@
 import { Component } from "react";
 import axios from "./axios";
+import FriendButton from "./Friendbutton";
 
 class OtherProfile extends Component {
     constructor(props) {
@@ -50,12 +51,15 @@ class OtherProfile extends Component {
     render() {
         return (
             <>
-                <p>Profile of user: {this.state.user.id}</p>
-                <p>
-                    {this.state.user.firstname} {this.state.user.lastname}
-                </p>
-                <p>{this.state.user.bio || "No bio yet"}</p>
-                <img src={this.state.user.profile_url} />
+                <div className="otherProfile">
+                    <p>Profile of user: {this.state.user.id}</p>
+                    <p>
+                        {this.state.user.firstname} {this.state.user.lastname}
+                    </p>
+                    <p>{this.state.user.bio || "No bio yet"}</p>
+                    <img src={this.state.user.profile_url} />
+                </div>
+                <FriendButton id={this.state.user.id} />
             </>
         );
     }

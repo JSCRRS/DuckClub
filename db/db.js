@@ -109,6 +109,37 @@ function getQueryMatches(q) {
         .then((results) => results.rows);
 }
 
+/* ------- FRIENDSHIP BUTTON ------- */
+
+function getFriendship({ first_id, second_id }) {
+    return db
+        .query(
+            `SELECT * FROM friendships WHERE 
+        sender_id = $1 AND recipient_id = $2 
+        OR 
+        sender_id = $2 AND recipient_id = $1`,
+            [first_id, second_id]
+        )
+        .then((results) => {
+            return results.rows[0];
+        });
+}
+
+function createFriendship({ sender_id, recipient_id }) {
+    // just insert values sender_id, recipient_id
+}
+
+function updateFriendship({ sender_id, recipient_id, accepted }) {
+    // update the accepted field where recipient_id and sender_id are like the passed ones
+}
+
+function deleteFriendship({ first_id, second_id }) {
+    // delete where either
+    // sender_id = first_id AND recipient_id = second_id
+    // OR
+    // sender_id = second_id AND recipient_id = first_id
+}
+
 module.exports = {
     registerUser,
     getUserByEmail,
@@ -120,4 +151,8 @@ module.exports = {
     updateUserBio,
     getLatestUsers,
     getQueryMatches,
+    getFriendship,
+    createFriendship,
+    updateFriendship,
+    deleteFriendship,
 };
