@@ -5,6 +5,7 @@ export default function FriendButton({ id }) {
     const [buttonText, setButtonText] = useState("Send request");
     const [friendship, setFriendship] = useState(false);
     const [incoming, setIncoming] = useState(false);
+    const [accepted, setAccepted] = useState(false);
 
     useEffect(() => {
         axios
@@ -34,8 +35,12 @@ export default function FriendButton({ id }) {
             setButtonText("Accept request");
             return;
         }
+        if (accepted) {
+            setButtonText("Unfriend");
+            return;
+        }
         setButtonText("Cancel your request");
-    }, [friendship, incoming]);
+    }, [friendship, incoming, accepted]);
 
     // another useEffect() depending on the rest of the state is necessary
     // in order to set the button text
@@ -46,7 +51,21 @@ export default function FriendButton({ id }) {
                 console.log("[FriendButton] post onClick: ", response.data);
                 setFriendship(true);
                 setIncoming(false);
+                setAccepted(false);
             });
+            return;
+        }
+        if (!accepted) {
+            console.log("[FriendButton] onClick accepted]", accepted);
+
+            axios
+                .put(`/friendships/${id}`, { accepted: true })
+                .then((response) => {
+                    console.log("[FriendButton] onClick put: ", response);
+                    setFriendship(true);
+                    setIncoming(false);
+                    setAccepted(response.data.accepted);
+                });
             return;
         }
 

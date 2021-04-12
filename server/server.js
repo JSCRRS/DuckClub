@@ -361,6 +361,31 @@ app.post("/friendships/:user_id", (request, response) => {
     });
 });
 
+app.put("/friendships/:sender_id", (request, response) => {
+    const recipient_id = request.session.user_id;
+    const sender_id = request.params.sender_id;
+    const accepted = request.body.accepted;
+
+    console.log(
+        "[server] updateFriendship data input: ",
+        sender_id,
+        recipient_id,
+        accepted
+    );
+
+    updateFriendship({ sender_id, recipient_id, accepted }).then((update) => {
+        if (!update) {
+            response.statusCode = 500;
+            response.json({
+                message: "Could not update relationship.",
+            });
+            return;
+        }
+        console.log("[server] updateFriendship update: ", update);
+        response.json(update);
+    });
+});
+
 /* ------- OTHERS ------- */
 
 app.get("*", (request, response) => {

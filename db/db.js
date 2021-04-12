@@ -143,7 +143,27 @@ function createFriendship({ sender_id, recipient_id }) {
 }
 
 function updateFriendship({ sender_id, recipient_id, accepted }) {
-    // update the accepted field where recipient_id and sender_id are like the passed ones
+    console.log(
+        "[db] updateFriendship sender_id, recipient_id, acceptet: ",
+        sender_id,
+        recipient_id,
+        accepted
+    );
+
+    return db
+        .query(
+            `UPDATE friendships SET accepted = $1 
+        WHERE sender_id = $2 AND recipient_id = $3 
+        RETURNING *`,
+            [accepted, sender_id, recipient_id]
+        )
+        .then((result) => {
+            console.log(
+                "[db] updateFriendship result.rows[0]: ",
+                result.rows[0]
+            );
+            return result.rows[0];
+        });
 }
 
 function deleteFriendship({ first_id, second_id }) {
