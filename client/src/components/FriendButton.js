@@ -4,14 +4,17 @@ import { useState, useEffect } from "react";
 export default function FriendButton({ id }) {
     const [buttonText, setButtonText] = useState("Send request");
     const [friendship, setFriendship] = useState(false);
+    const [readyForFriendship, setReadyForFriendship] = useState(false);
 
     useEffect(() => {
-        console.log("USE EFFECT 1", friendship); //false
-
         axios
             .get(`/friendships/${id}`)
-            .then(() => {
+            .then((response) => {
+                console.log(response);
                 setFriendship(true);
+                setReadyForFriendship(response.data.sender_id === parseInt(id));
+                console.log("friendship: ", friendship);
+                console.log("readyfor friendship: ", readyForFriendship);
             })
             .catch((error) => {
                 if (error.response.status === 404) {
@@ -19,7 +22,6 @@ export default function FriendButton({ id }) {
                         "[FriendButton] no friendship status found: ",
                         error
                     );
-                    console.log("USE EFFECT axios nach 404: ", friendship); //???
                     return;
                 }
                 console.log("something went wrong", error);
@@ -27,14 +29,15 @@ export default function FriendButton({ id }) {
     }, [id]);
 
     useEffect(() => {
-        console.log("USE EFFECT2 (vor setButtonText): ", friendship); //???
-
         if (!friendship) {
             setButtonText("Send FRIENDSHIP request");
             return;
         }
+        if (readyForFriendship) {
+            setButtonText("Accept request");
+        }
         setButtonText("Cancel your request");
-    }, [friendship]);
+    }, [friendship, readyForFriendship]);
 
     // another useEffect() depending on the rest of the state is necessary
     // in order to set the button text
@@ -44,10 +47,12 @@ export default function FriendButton({ id }) {
         if (!friendship) {
             axios.post(`/friendships/${id}`).then((response) => {
                 console.log("[FriendButton] post onClick: ", response.data);
-                //setFriendship(true);
+                setFriendship(true);
+                setReadyForFriendship(false);
             });
             return;
         }
+
         // based on the current state, make the right POST / PUT / DELETE call
     }
 

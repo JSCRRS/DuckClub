@@ -339,7 +339,6 @@ app.post("/friendships/:user_id", (request, response) => {
     getFriendship({ sender_id, recipient_id }).then((status) => {
         console.log("[server] getFriendship status:", status);
 
-        //hoffentlich geht das mit den Parameter-Bezeichnungen...
         if (status) {
             response.statusCode = 400;
             response.json({

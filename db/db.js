@@ -138,7 +138,6 @@ function createFriendship({ sender_id, recipient_id }) {
             [sender_id, recipient_id]
         )
         .then((result) => {
-            console.log("[db] insert result:", result);
             return result.rows[0];
         });
 }

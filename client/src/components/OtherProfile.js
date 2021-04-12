@@ -59,7 +59,7 @@ class OtherProfile extends Component {
                     <p>{this.state.user.bio || "No bio yet"}</p>
                     <img src={this.state.user.profile_url} />
                 </div>
-                <FriendButton id={this.state.user.id} />
+                <FriendButton id={this.props.id} />
             </>
         );
     }
