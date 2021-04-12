@@ -11,8 +11,10 @@ export default function FriendButton({ id }) {
         axios
             .get(`/friendships/${id}`)
             .then((response) => {
+                console.log("[FriendButton] response.data", response.data);
                 setFriendship(true);
                 setIncoming(response.data.sender_id === parseInt(id));
+                setAccepted(response.data.accepted);
             })
             .catch((error) => {
                 if (error.response.status === 404) {
@@ -31,16 +33,16 @@ export default function FriendButton({ id }) {
             setButtonText("Send FRIENDSHIP request");
             return;
         }
-        if (incoming) {
-            setButtonText("Accept request");
-            return;
-        }
         if (accepted) {
             setButtonText("Unfriend");
             return;
         }
+        if (incoming) {
+            setButtonText("Accept request");
+            return;
+        }
         setButtonText("Cancel your request");
-    }, [friendship, incoming, accepted]);
+    }, [friendship, accepted, incoming]);
 
     // another useEffect() depending on the rest of the state is necessary
     // in order to set the button text

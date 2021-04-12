@@ -347,9 +347,7 @@ app.post("/friendships/:user_id", (request, response) => {
         createFriendship({ sender_id, recipient_id })
             .then((result) => {
                 console.log("[server] createFriendship result:", result);
-                response.json({
-                    result,
-                });
+                response.json(result);
             })
             .catch((error) => {
                 console.log("[server] createFriendship error:", error);
