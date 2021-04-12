@@ -167,10 +167,19 @@ function updateFriendship({ sender_id, recipient_id, accepted }) {
 }
 
 function deleteFriendship({ first_id, second_id }) {
-    // delete where either
-    // sender_id = first_id AND recipient_id = second_id
-    // OR
-    // sender_id = second_id AND recipient_id = first_id
+    console.log(
+        "[db] deleteFriendship sender_id, recipient_id: ",
+        first_id,
+        second_id
+    );
+
+    return db.query(
+        `
+        DELETE FROM friendships 
+        WHERE sender_id = $1 AND recipient_id = $2
+        OR sender_id = $2 AND recipient_id = $1`,
+        [first_id, second_id]
+    );
 }
 
 module.exports = {

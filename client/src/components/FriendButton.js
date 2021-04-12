@@ -44,9 +44,6 @@ export default function FriendButton({ id }) {
         setButtonText("Cancel your request");
     }, [friendship, accepted, incoming]);
 
-    // another useEffect() depending on the rest of the state is necessary
-    // in order to set the button text
-
     function onClick() {
         if (!friendship) {
             axios.post(`/friendships/${id}`).then((response) => {
@@ -70,8 +67,12 @@ export default function FriendButton({ id }) {
                 });
             return;
         }
-
-        // based on the current state, make the right POST / PUT / DELETE call
+        axios.delete(`/friendships/${id}`).then(() => {
+            console.log("[FriendButton] onClick delete: friendship deleted");
+            setFriendship(false);
+            setIncoming(false);
+            setAccepted(false);
+        });
     }
 
     return <button onClick={onClick}>{buttonText}</button>;

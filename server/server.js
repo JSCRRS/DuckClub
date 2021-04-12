@@ -384,6 +384,22 @@ app.put("/friendships/:sender_id", (request, response) => {
     });
 });
 
+app.delete("/friendships/:recipient_id", (request, response) => {
+    const first_id = request.params.recipient_id;
+    const second_id = request.session.user_id;
+
+    console.log("[server] deleteFriendship id's: ", first_id, second_id);
+
+    deleteFriendship({ first_id, second_id }).then((deletionFail) => {
+        if (!deletionFail) {
+            response.statusCode = 200;
+            response.json({
+                message: "Friendship deleted successfully",
+            });
+        }
+    });
+});
+
 /* ------- OTHERS ------- */
 
 app.get("*", (request, response) => {
