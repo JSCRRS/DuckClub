@@ -134,16 +134,13 @@ function createFriendship({ sender_id, recipient_id }) {
     return db
         .query(
             `INSERT INTO friendships (sender_id, recipient_id)
-            VALUES ($1, $2)
-            `,
+            VALUES ($1, $2) RETURNING *`,
             [sender_id, recipient_id]
         )
         .then((result) => {
             console.log("[db] insert result:", result);
             return result.rows[0];
         });
-
-    // just insert values sender_id, recipient_id
 }
 
 function updateFriendship({ sender_id, recipient_id, accepted }) {

@@ -318,6 +318,7 @@ app.get("/friendships/:user_id", (request, response) => {
     const second_id = request.params.user_id;
 
     getFriendship({ first_id, second_id }).then((status) => {
+        console.log("[server] getFriendship status:", status);
         if (!status) {
             response.statusCode = 404;
             response.json({
@@ -329,11 +330,15 @@ app.get("/friendships/:user_id", (request, response) => {
     });
 });
 
-app.post("/friendships", (request, response) => {
+app.post("/friendships/:user_id", (request, response) => {
     const sender_id = request.session.user_id;
     const recipient_id = request.params.user_id;
 
+    console.log("[server] sender, recipient", sender_id, recipient_id);
+
     getFriendship({ sender_id, recipient_id }).then((status) => {
+        console.log("[server] getFriendship status:", status);
+
         //hoffentlich geht das mit den Parameter-Bezeichnungen...
         if (status) {
             response.statusCode = 400;

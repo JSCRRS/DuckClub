@@ -34,7 +34,7 @@ export default function FriendButton({ id }) {
             return;
         }
         setButtonText("Cancel your request");
-    }, []);
+    }, [friendship]);
 
     // another useEffect() depending on the rest of the state is necessary
     // in order to set the button text
@@ -42,7 +42,7 @@ export default function FriendButton({ id }) {
     function onClick() {
         console.log("FRIENDSHIP onClick:", friendship);
         if (!friendship) {
-            axios.post("/friendships").then((response) => {
+            axios.post(`/friendships/${id}`).then((response) => {
                 console.log("[FriendButton] post onClick: ", response.data);
                 //setFriendship(true);
             });
