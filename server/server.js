@@ -334,8 +334,6 @@ app.post("/friendships/:user_id", (request, response) => {
     const sender_id = request.session.user_id;
     const recipient_id = request.params.user_id;
 
-    console.log("[server] sender, recipient", sender_id, recipient_id);
-
     getFriendship({ sender_id, recipient_id }).then((status) => {
         console.log("[server] getFriendship status:", status);
 

@@ -4,17 +4,14 @@ import { useState, useEffect } from "react";
 export default function FriendButton({ id }) {
     const [buttonText, setButtonText] = useState("Send request");
     const [friendship, setFriendship] = useState(false);
-    const [readyForFriendship, setReadyForFriendship] = useState(false);
+    const [incoming, setIncoming] = useState(false);
 
     useEffect(() => {
         axios
             .get(`/friendships/${id}`)
             .then((response) => {
-                console.log(response);
                 setFriendship(true);
-                setReadyForFriendship(response.data.sender_id === parseInt(id));
-                console.log("friendship: ", friendship);
-                console.log("readyfor friendship: ", readyForFriendship);
+                setIncoming(response.data.sender_id === parseInt(id));
             })
             .catch((error) => {
                 if (error.response.status === 404) {
@@ -33,22 +30,22 @@ export default function FriendButton({ id }) {
             setButtonText("Send FRIENDSHIP request");
             return;
         }
-        if (readyForFriendship) {
+        if (incoming) {
             setButtonText("Accept request");
+            return;
         }
         setButtonText("Cancel your request");
-    }, [friendship, readyForFriendship]);
+    }, [friendship, incoming]);
 
     // another useEffect() depending on the rest of the state is necessary
     // in order to set the button text
 
     function onClick() {
-        console.log("FRIENDSHIP onClick:", friendship);
         if (!friendship) {
             axios.post(`/friendships/${id}`).then((response) => {
                 console.log("[FriendButton] post onClick: ", response.data);
                 setFriendship(true);
-                setReadyForFriendship(false);
+                setIncoming(false);
             });
             return;
         }
