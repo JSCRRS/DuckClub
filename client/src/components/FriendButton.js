@@ -11,7 +11,6 @@ export default function FriendButton({ id }) {
         axios
             .get(`/friendships/${id}`)
             .then((response) => {
-                console.log("[FriendButton] response.data", response.data);
                 setFriendship(true);
                 setIncoming(response.data.sender_id === parseInt(id));
                 setAccepted(response.data.accepted);
@@ -46,11 +45,18 @@ export default function FriendButton({ id }) {
 
     function onClick() {
         if (!friendship) {
-            axios.post(`/friendships/${id}`).then((response) => {
-                console.log("[FriendButton] post onClick: ", response.data);
+            axios.post(`/friendships/${id}`).then(() => {
                 setFriendship(true);
                 setIncoming(false);
                 setAccepted(false);
+            });
+            return;
+        }
+        if (accepted || !incoming) {
+            axios.delete(`/friendships/${id}`).then(() => {
+                setFriendship(false);
+                setAccepted(false);
+                setIncoming(false);
             });
             return;
         }
@@ -60,7 +66,6 @@ export default function FriendButton({ id }) {
             axios
                 .put(`/friendships/${id}`, { accepted: true })
                 .then((response) => {
-                    console.log("[FriendButton] onClick put: ", response);
                     setFriendship(true);
                     setIncoming(false);
                     setAccepted(response.data.accepted);
@@ -68,7 +73,6 @@ export default function FriendButton({ id }) {
             return;
         }
         axios.delete(`/friendships/${id}`).then(() => {
-            console.log("[FriendButton] onClick delete: friendship deleted");
             setFriendship(false);
             setIncoming(false);
             setAccepted(false);

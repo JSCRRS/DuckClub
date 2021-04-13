@@ -318,7 +318,6 @@ app.get("/friendships/:user_id", (request, response) => {
     const second_id = request.params.user_id;
 
     getFriendship({ first_id, second_id }).then((status) => {
-        console.log("[server] getFriendship status:", status);
         if (!status) {
             response.statusCode = 404;
             response.json({
@@ -335,8 +334,6 @@ app.post("/friendships/:user_id", (request, response) => {
     const recipient_id = request.params.user_id;
 
     getFriendship({ sender_id, recipient_id }).then((status) => {
-        console.log("[server] getFriendship status:", status);
-
         if (status) {
             response.statusCode = 400;
             response.json({
@@ -346,7 +343,6 @@ app.post("/friendships/:user_id", (request, response) => {
         }
         createFriendship({ sender_id, recipient_id })
             .then((result) => {
-                console.log("[server] createFriendship result:", result);
                 response.json(result);
             })
             .catch((error) => {
@@ -364,13 +360,6 @@ app.put("/friendships/:sender_id", (request, response) => {
     const sender_id = request.params.sender_id;
     const accepted = request.body.accepted;
 
-    console.log(
-        "[server] updateFriendship data input: ",
-        sender_id,
-        recipient_id,
-        accepted
-    );
-
     updateFriendship({ sender_id, recipient_id, accepted }).then((update) => {
         if (!update) {
             response.statusCode = 500;
@@ -379,7 +368,6 @@ app.put("/friendships/:sender_id", (request, response) => {
             });
             return;
         }
-        console.log("[server] updateFriendship update: ", update);
         response.json(update);
     });
 });
@@ -387,8 +375,6 @@ app.put("/friendships/:sender_id", (request, response) => {
 app.delete("/friendships/:recipient_id", (request, response) => {
     const first_id = request.params.recipient_id;
     const second_id = request.session.user_id;
-
-    console.log("[server] deleteFriendship id's: ", first_id, second_id);
 
     deleteFriendship({ first_id, second_id })
         .then(() => {
