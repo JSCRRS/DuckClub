@@ -126,11 +126,6 @@ function getFriendship({ first_id, second_id }) {
 }
 
 function createFriendship({ sender_id, recipient_id }) {
-    console.log(
-        "[db] createFriendship sender_id, recipient_id:",
-        sender_id,
-        recipient_id
-    );
     return db
         .query(
             `INSERT INTO friendships (sender_id, recipient_id)
@@ -143,13 +138,6 @@ function createFriendship({ sender_id, recipient_id }) {
 }
 
 function updateFriendship({ sender_id, recipient_id, accepted }) {
-    console.log(
-        "[db] updateFriendship sender_id, recipient_id, acceptet: ",
-        sender_id,
-        recipient_id,
-        accepted
-    );
-
     return db
         .query(
             `UPDATE friendships SET accepted = $1 
@@ -167,12 +155,6 @@ function updateFriendship({ sender_id, recipient_id, accepted }) {
 }
 
 function deleteFriendship({ first_id, second_id }) {
-    console.log(
-        "[db] deleteFriendship sender_id, recipient_id: ",
-        first_id,
-        second_id
-    );
-
     return db.query(
         `
         DELETE FROM friendships 
@@ -180,6 +162,37 @@ function deleteFriendship({ first_id, second_id }) {
         OR sender_id = $2 AND recipient_id = $1`,
         [first_id, second_id]
     );
+}
+
+/* ------- FRIENDSHIPS LIST ------- */
+
+function getFriendships(user_id) {
+    return db
+        .query(
+            `
+        SELECT users.id, firstname, lastname, profile_url, accepted, sender_id, recipient_id
+        FROM friendships 
+        JOIN users
+        ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`,
+            [user_id]
+        )
+        .then((result) => {
+            return result.rows.map(
+                ({ id, firstname, lastname, profile_url, ...rest }) => {
+                    return {
+                        ...rest,
+                        user: {
+                            id,
+                            firstname,
+                            lastname,
+                            profile_url,
+                        },
+                    };
+                }
+            );
+        });
 }
 
 module.exports = {
@@ -197,4 +210,5 @@ module.exports = {
     createFriendship,
     updateFriendship,
     deleteFriendship,
+    getFriendships,
 };

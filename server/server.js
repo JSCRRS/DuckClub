@@ -23,6 +23,7 @@ const {
     createFriendship,
     updateFriendship,
     deleteFriendship,
+    getFriendships,
 } = require("../db/db");
 
 const app = express();
@@ -388,6 +389,24 @@ app.delete("/friendships/:recipient_id", (request, response) => {
             response.json({
                 message: "Could not delete friendship:",
                 error,
+            });
+        });
+});
+
+/* ------- FRIENDSHIPS ------- */
+
+app.get("/friendships", (request, response) => {
+    const user_id = request.session.user_id;
+
+    getFriendships(user_id)
+        .then((result) => {
+            console.log("[server] getFriendships result: ", result);
+        })
+        .catch((error) => {
+            console.log("[server] getFriendships error: ", error);
+            response.status = 500;
+            response.json({
+                message: "Could not get list of friendships:",
             });
         });
 });
