@@ -390,14 +390,20 @@ app.delete("/friendships/:recipient_id", (request, response) => {
 
     console.log("[server] deleteFriendship id's: ", first_id, second_id);
 
-    deleteFriendship({ first_id, second_id }).then((deletionFail) => {
-        if (!deletionFail) {
+    deleteFriendship({ first_id, second_id })
+        .then(() => {
             response.statusCode = 200;
             response.json({
-                message: "Friendship deleted successfully",
+                message: "Friendship deleted successfully.",
             });
-        }
-    });
+        })
+        .catch((error) => {
+            response.statusCode = 500;
+            response.json({
+                message: "Could not delete friendship:",
+                error,
+            });
+        });
 });
 
 /* ------- OTHERS ------- */
