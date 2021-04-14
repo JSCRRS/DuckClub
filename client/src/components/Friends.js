@@ -2,24 +2,20 @@ import axios from "./axios";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-/* function splitFriendships(friendships = []) {
+function splitFriendships(friendships = []) {
     const incoming = [];
     const accepted = [];
 
-    friendships.forEach(element => {})
+    friendships.forEach((element) => {
+        if (element.accepted === true) {
+            accepted.push(element);
+        }
+        if (element.accepted === false) {
+            incoming.push(element);
+        }
+    });
+    return { incoming, accepted };
 }
-
-    // Implement it in order to return something like:
-    // {
-    //    incoming: [...],
-    //    accepted: [...],
-    // }
-    //
-    // Initialising two empty arrays and a plain old for loop goes a long way!
-} */
-
-/* const response = await axios.get("/friendships");
-const { incoming, accepted } = splitFriendships(response.data); */
 
 export default function Friends() {
     const [incoming, setIncoming] = useState([]);
@@ -27,9 +23,14 @@ export default function Friends() {
 
     useEffect(() => {
         axios.get("/friendships").then((response) => {
-            console.log("hallo");
-
-            console.log(response.data);
+            const { incoming, accepted } = splitFriendships(response.data);
+            setIncoming(incoming);
+            setAccepted(accepted);
         });
     }, []);
+
+    console.log("INCOMING", incoming);
+    console.log("ACCEPTED", accepted);
+
+    return <p>hola</p>;
 }

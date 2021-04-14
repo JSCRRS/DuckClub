@@ -7,6 +7,7 @@ import ProfilePictureUploader from "./ProfilePictureUploader";
 import Profile from "./Profile";
 import OtherProfile from "./OtherProfile";
 import FindPeople from "./FindPeople";
+import Friends from "./Friends";
 
 class App extends Component {
     constructor(props) {
@@ -114,6 +115,7 @@ class App extends Component {
                     </div>
 
                     <Route path="/users" render={() => <FindPeople />} />
+                    <Route path="/friends" render={() => <Friends />} />
 
                     <div>{this.renderModal()}</div>
                 </section>
