@@ -32,6 +32,22 @@ export default function Friends() {
     console.log("INCOMING", incoming);
     console.log("ACCEPTED", accepted);
 
+    function onBeFriendsClick(id) {
+        console.log("[Friends] onBeFriendsClick id: ", id);
+        axios.put(`/friendships/${id}`, { accepted: true }).then((response) => {
+            console.log("[Friends] onBeFriendsClick response: ", response);
+            console.log("[Friends] onBeFriendsClick ACCEPTED: ", accepted);
+
+            setIncoming(incoming);
+        });
+    }
+
+    function onDeleteFriendsClick(id) {
+        axios.delete(`/friendships/${id}`).then(() => {
+            console.log("friend deleted");
+        });
+    }
+
     return (
         <section className="friends">
             <section>
@@ -49,6 +65,14 @@ export default function Friends() {
                                 ></img>
                                 {element.user.firstname} {element.user.lastname}
                             </Link>
+
+                            <button
+                                onClick={() =>
+                                    onBeFriendsClick(element.sender_id)
+                                }
+                            >
+                                Be Friends
+                            </button>
                         </li>
                     ))}
                 </ul>
@@ -68,6 +92,14 @@ export default function Friends() {
                                 ></img>
                                 {element.user.firstname} {element.user.lastname}
                             </Link>
+
+                            <button
+                                onClick={() =>
+                                    onDeleteFriendsClick(element.recipient_id)
+                                }
+                            >
+                                Delete Friend
+                            </button>
                         </li>
                     ))}
                 </ul>

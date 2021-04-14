@@ -357,6 +357,13 @@ app.post("/friendships/:user_id", (request, response) => {
 });
 
 app.put("/friendships/:sender_id", (request, response) => {
+    console.log("[server] app.put request.session:", request.session);
+    console.log(
+        "[server] app.put request.params.sender_id:",
+        request.params.sender_id
+    );
+    console.log("[server] app.put request.body:", request.body);
+
     const recipient_id = request.session.user_id;
     const sender_id = request.params.sender_id;
     const accepted = request.body.accepted;
