@@ -32,5 +32,46 @@ export default function Friends() {
     console.log("INCOMING", incoming);
     console.log("ACCEPTED", accepted);
 
-    return <p>hola</p>;
+    return (
+        <section className="friends">
+            <section>
+                <h3>These people want to be your friends</h3>
+                <ul>
+                    {incoming.map((element) => (
+                        <li key={element.sender_id}>
+                            <Link
+                                to={"/user/" + element.sender_id}
+                                target="_blank"
+                            >
+                                <img
+                                    src={element.user.profile_url}
+                                    alt={element.user.firstname}
+                                ></img>
+                                {element.user.firstname} {element.user.lastname}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </section>
+            <section>
+                <h3>These people are currently your friends</h3>
+                <ul>
+                    {accepted.map((element) => (
+                        <li key={element.recipient_id}>
+                            <Link
+                                to={"/user/" + element.recipient_id}
+                                target="_blank"
+                            >
+                                <img
+                                    src={element.user.profile_url}
+                                    alt={element.user.firstname}
+                                ></img>
+                                {element.user.firstname} {element.user.lastname}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </section>
+        </section>
+    );
 }
