@@ -6,9 +6,8 @@ import { useState, useEffect } from "react";
     const incoming = [];
     const accepted = [];
 
-    friendships.forEach(element => {
-        if (element.incoming)
-    })
+    friendships.forEach(element => {})
+}
 
     // Implement it in order to return something like:
     // {
@@ -23,11 +22,14 @@ import { useState, useEffect } from "react";
 const { incoming, accepted } = splitFriendships(response.data); */
 
 export default function Friends() {
-    const [friendsList, setFriendsList] = useState([]);
+    const [incoming, setIncoming] = useState([]);
+    const [accepted, setAccepted] = useState([]);
 
     useEffect(() => {
         axios.get("/friendships").then((response) => {
-            console.log(response);
+            console.log("hallo");
+
+            console.log(response.data);
         });
-    });
+    }, []);
 }

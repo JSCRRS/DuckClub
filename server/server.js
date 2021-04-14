@@ -400,13 +400,13 @@ app.get("/friendships", (request, response) => {
 
     getFriendships(user_id)
         .then((result) => {
-            console.log("[server] getFriendships result: ", result);
+            response.json(result);
         })
         .catch((error) => {
             console.log("[server] getFriendships error: ", error);
             response.status = 500;
             response.json({
-                message: "Could not get list of friendships:",
+                message: "Could not get list of friendships.",
             });
         });
 });

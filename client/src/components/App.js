@@ -1,6 +1,6 @@
 import { Component } from "react";
 import axios from "./axios";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Link } from "react-router-dom";
 
 import ProfilePicture from "./ProfilePicture";
 import ProfilePictureUploader from "./ProfilePictureUploader";
@@ -80,6 +80,8 @@ class App extends Component {
                 <section className="app">
                     <header>
                         <span className="logo">Hee Hee</span>
+                        <Link to="/users">Find People</Link>
+
                         <ProfilePicture
                             firstname={this.state.user.firstname}
                             lastname={this.state.user.lastname}
