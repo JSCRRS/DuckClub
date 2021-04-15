@@ -29,16 +29,21 @@ export default function Friends() {
         });
     }, []);
 
-    console.log("INCOMING", incoming);
-    console.log("ACCEPTED", accepted);
+    //console.log("INCOMING", incoming);
+    //console.log("ACCEPTED", accepted);
 
     function onBeFriendsClick(id) {
-        console.log("[Friends] onBeFriendsClick id: ", id);
-        axios.put(`/friendships/${id}`, { accepted: true }).then((response) => {
-            console.log("[Friends] onBeFriendsClick response: ", response);
-            console.log("[Friends] onBeFriendsClick ACCEPTED: ", accepted);
+        axios.put(`/friendships/${id}`, { accepted: true }).then(() => {
+            const updatedIncoming = incoming.filter(
+                (element) => element.user.id !== id
+            );
 
-            setIncoming(incoming);
+            const acceptedFriendship = incoming.find(
+                (element) => element.user.id === id
+            );
+
+            setIncoming(updatedIncoming); // soll gemacht werden, wenn der axios-call erfolgreich war!
+            setAccepted([...accepted, acceptedFriendship]);
         });
     }
 
@@ -81,9 +86,9 @@ export default function Friends() {
                 <h3>These people are currently your friends</h3>
                 <ul>
                     {accepted.map((element) => (
-                        <li key={element.recipient_id}>
+                        <li key={element.user.id}>
                             <Link
-                                to={"/user/" + element.recipient_id}
+                                to={"/user/" + element.user.id}
                                 target="_blank"
                             >
                                 <img
