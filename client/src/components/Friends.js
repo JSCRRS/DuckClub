@@ -29,9 +29,6 @@ export default function Friends() {
         });
     }, []);
 
-    //console.log("INCOMING", incoming);
-    //console.log("ACCEPTED", accepted);
-
     function onBeFriendsClick(id) {
         axios.put(`/friendships/${id}`, { accepted: true }).then(() => {
             const updatedIncoming = incoming.filter(
@@ -49,7 +46,11 @@ export default function Friends() {
 
     function onDeleteFriendsClick(id) {
         axios.delete(`/friendships/${id}`).then(() => {
-            console.log("friend deleted");
+            const updatedFriendList = accepted.filter(
+                (element) => element.user.id !== id
+            );
+
+            setAccepted(updatedFriendList);
         });
     }
 
@@ -68,7 +69,10 @@ export default function Friends() {
                                     src={element.user.profile_url}
                                     alt={element.user.firstname}
                                 ></img>
-                                {element.user.firstname} {element.user.lastname}
+                                <span>
+                                    {element.user.firstname}{" "}
+                                    {element.user.lastname}
+                                </span>
                             </Link>
 
                             <button
@@ -95,12 +99,15 @@ export default function Friends() {
                                     src={element.user.profile_url}
                                     alt={element.user.firstname}
                                 ></img>
-                                {element.user.firstname} {element.user.lastname}
+                                <span>
+                                    {element.user.firstname}{" "}
+                                    {element.user.lastname}
+                                </span>
                             </Link>
 
                             <button
                                 onClick={() =>
-                                    onDeleteFriendsClick(element.recipient_id)
+                                    onDeleteFriendsClick(element.user.id)
                                 }
                             >
                                 Delete Friend

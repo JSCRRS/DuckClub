@@ -146,10 +146,6 @@ function updateFriendship({ sender_id, recipient_id, accepted }) {
             [accepted, sender_id, recipient_id]
         )
         .then((result) => {
-            console.log(
-                "[db] updateFriendship result.rows[0]: ",
-                result.rows[0]
-            );
             return result.rows[0];
         });
 }

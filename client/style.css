@@ -85,3 +85,72 @@ header img {
 .find-people img {
     width: 100px;
 }
+
+/* (POTENTIAL) FRIENDS LIST*/
+
+.friends img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.friends ul {
+    display: flex;
+}
+
+.friends li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+
+    width: 250px;
+    height: 250px;
+    margin-right: 20px;
+    border-radius: 20px;
+
+    padding: 5px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+        0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+
+    outline: solid 0px rgba(0, 0, 0, 0.2);
+    transition: outline 0.2s linear;
+}
+
+.friends li:hover {
+    box-shadow: 0 0 3pt 2pt rgba(0, 0, 0, 0.2);
+}
+
+.friends li button {
+    cursor: pointer;
+    padding: 5px;
+    border: none;
+    background-color: white;
+}
+
+.friends li button::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px;
+    background: rgba(0, 0, 0, 0.2);
+    transition: width 0.3s;
+}
+
+.friends li button:hover::after {
+    width: 100%;
+}
+
+.friends a {
+    text-decoration: none;
+    color: black;
+    font-size: large;
+}
+
+.friends span {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}

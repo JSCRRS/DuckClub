@@ -357,13 +357,6 @@ app.post("/friendships/:user_id", (request, response) => {
 });
 
 app.put("/friendships/:sender_id", (request, response) => {
-    console.log("[server] app.put request.session:", request.session);
-    console.log(
-        "[server] app.put request.params.sender_id:",
-        request.params.sender_id
-    );
-    console.log("[server] app.put request.body:", request.body);
-
     const recipient_id = request.session.user_id;
     const sender_id = request.params.sender_id;
     const accepted = request.body.accepted;
@@ -383,6 +376,8 @@ app.put("/friendships/:sender_id", (request, response) => {
 app.delete("/friendships/:recipient_id", (request, response) => {
     const first_id = request.params.recipient_id;
     const second_id = request.session.user_id;
+
+    console.log("IDs: ", first_id, second_id);
 
     deleteFriendship({ first_id, second_id })
         .then(() => {
