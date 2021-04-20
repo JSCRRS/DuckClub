@@ -1,4 +1,6 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
+
 import axios from "./axios";
 
 class RegistrationForm extends Component {
@@ -36,20 +38,22 @@ class RegistrationForm extends Component {
     }
     render() {
         return (
-            <div className="registration-form">
+            <div className="registration-form generalUserForm">
+                <h2>Sign Up!</h2>
+
                 <p className="error">{this.state.error}</p>
                 <form onSubmit={this.onFormSubmit}>
                     <input
                         type="text"
                         name="firstname"
-                        placeholder="First name"
+                        placeholder="First Name"
                         onChange={this.onInputChange}
                         required
                     />
                     <input
                         type="text"
                         name="lastname"
-                        placeholder="Last name"
+                        placeholder="Last Name"
                         onChange={this.onInputChange}
                         required
                     />
@@ -69,6 +73,10 @@ class RegistrationForm extends Component {
                     />
                     <button type="submit">Register</button>
                 </form>
+                <div className="registration-links">
+                    <Link to="/login">Log in here</Link>
+                    <Link to="/password-reset">Reset password</Link>
+                </div>
             </div>
         );
     }

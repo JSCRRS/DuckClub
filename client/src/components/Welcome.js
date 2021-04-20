@@ -1,4 +1,4 @@
-import { HashRouter, Route, Link } from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 import RegistrationForm from "./RegistrationForm";
 import LoginForm from "./LoginForm";
 import ResetPassword from "./ResetPassword";
@@ -12,24 +12,26 @@ export default function Welcome() {
     return (
         <HashRouter>
             <section className="welcome">
-                <h1>Welcome!</h1>
-                <p> IMAGE / TITLE HERE!</p>
-
                 <Route exact path="/">
+                    <div className="welcome-intro">
+                        <h1>Duck Club</h1>
+                        <p>
+                            Connect with friends around the world who have only
+                            one interest: Ducks.
+                        </p>
+                    </div>
                     <RegistrationForm onSuccess={onSuccess} />
-                    <Link to="/login">Click here to Log in!</Link>
-                    <Link to="/password-reset">Reset your password.</Link>
                 </Route>
-
+            </section>
+            <div className="registration-links">
                 <Route path="/login">
                     <LoginForm onSuccess={onSuccess} />
-                    <Link to="/">Click here to register!</Link>
                 </Route>
 
                 <Route path="/password-reset">
                     <ResetPassword />
                 </Route>
-            </section>
+            </div>
         </HashRouter>
     );
 }

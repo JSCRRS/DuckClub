@@ -10,7 +10,7 @@ export default function Profile({
     onBioSave,
 }) {
     return (
-        <section className="profile">
+        <section className="userProfileCard profile ">
             <ProfilePicture
                 firstname={firstname}
                 lastname={lastname}
@@ -18,9 +18,9 @@ export default function Profile({
                 onClick={onClick}
             />
             <div className="profile-details">
-                <p>
+                <h2>
                     {firstname} {lastname}
-                </p>
+                </h2>
                 <BioEditor bio={bio} onBioSave={onBioSave} />
             </div>
         </section>

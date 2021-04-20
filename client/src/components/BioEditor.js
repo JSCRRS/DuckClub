@@ -51,20 +51,31 @@ class BioEditor extends Component {
     }
 
     renderBioOptions() {
-        if (this.props.bio) {
+        if (this.props.bio && !this.state.editingMode) {
             return (
                 <>
                     <p>{this.props.bio}</p>
-                    <button onClick={this.onEditModeOpen}>Edit Bio</button>
+                    <button
+                        className="editBioButton"
+                        onClick={this.onEditModeOpen}
+                    >
+                        Edit Bio
+                    </button>
                 </>
             );
         }
-        return (
-            <>
-                <p>No personal information yet.</p>
-                <button onClick={this.onEditModeOpen}>Add Bio</button>
-            </>
-        );
+        if (!this.state.editingMode)
+            return (
+                <>
+                    <p>No personal information yet.</p>
+                    <button
+                        className="addBioButton"
+                        onClick={this.onEditModeOpen}
+                    >
+                        Add Bio
+                    </button>
+                </>
+            );
     }
 
     renderEditBio() {

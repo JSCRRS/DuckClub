@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export default function FindPeople() {
+    const defaultImageUrl = "https://via.placeholder.com/150";
+
     const [recentUsers, setRecentUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -31,16 +33,18 @@ export default function FindPeople() {
     }
 
     return (
-        <section className="find-people">
-            <p>Find people</p>
-            <section>
-                <h3>Who is new?</h3>
+        <section className="find-people friends">
+            <section className="new-friends">
+                <h2>Who is new?</h2>
                 <ul>
                     {recentUsers.map((recentUser) => (
                         <li key={recentUser.id}>
                             <Link to={"/user/" + recentUser.id} target="_blank">
                                 <img
-                                    src={recentUser.profile_url}
+                                    src={
+                                        recentUser.profile_url ||
+                                        defaultImageUrl
+                                    }
                                     alt={recentUser.firstname}
                                 ></img>
                                 {recentUser.firstname} {recentUser.lastname}
@@ -49,28 +53,33 @@ export default function FindPeople() {
                     ))}
                 </ul>
             </section>
-            <section>
-                <h3>Looking for someone in particular?</h3>
-                <p>
-                    <input
-                        type="text"
-                        placeholder="Search for someone"
-                        onChange={onChange}
-                    />
-                </p>
-                <ul>
-                    {searchResults.map((searchResult) => (
-                        <li key={searchResult.id}>
-                            <Link
-                                to={"/user/" + searchResult.id}
-                                target="_blank"
-                            >
-                                {searchResult.firstname} {searchResult.lastname}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </section>
+            <>
+                <section className="find-friends">
+                    <h2>Looking for someone in particular?</h2>
+                    <p>
+                        <input
+                            type="text"
+                            placeholder="Search for someone"
+                            onChange={onChange}
+                        />
+                    </p>
+                </section>
+                <section className="find-friends-list">
+                    <ul>
+                        {searchResults.map((searchResult) => (
+                            <li className="list" key={searchResult.id}>
+                                <Link
+                                    to={"/user/" + searchResult.id}
+                                    target="_blank"
+                                >
+                                    {searchResult.firstname}{" "}
+                                    {searchResult.lastname}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            </>
         </section>
     );
 }

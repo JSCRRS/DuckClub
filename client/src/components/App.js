@@ -80,9 +80,9 @@ class App extends Component {
             <BrowserRouter>
                 <section className="app">
                     <header>
-                        <span className="logo">Hee Hee</span>
+                        <Link to="/">Duck Club</Link>
+                        <Link to="/friends">Your Friends</Link>
                         <Link to="/users">Find People</Link>
-
                         <ProfilePicture
                             firstname={this.state.user.firstname}
                             lastname={this.state.user.lastname}

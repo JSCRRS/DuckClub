@@ -29,18 +29,18 @@ export default function FriendButton({ id }) {
 
     useEffect(() => {
         if (!friendship) {
-            setButtonText("Send FRIENDSHIP request");
+            setButtonText("Be friends!");
             return;
         }
         if (accepted) {
-            setButtonText("Unfriend");
+            setButtonText("Unfriend...");
             return;
         }
         if (incoming) {
-            setButtonText("Accept request");
+            setButtonText("Accept request!");
             return;
         }
-        setButtonText("Cancel your request");
+        setButtonText("Cancel your request.");
     }, [friendship, accepted, incoming]);
 
     function onClick() {
@@ -79,5 +79,9 @@ export default function FriendButton({ id }) {
         });
     }
 
-    return <button onClick={onClick}>{buttonText}</button>;
+    return (
+        <button className="profileButton" onClick={onClick}>
+            {buttonText}
+        </button>
+    );
 }

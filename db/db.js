@@ -29,6 +29,8 @@ function getUserByEmail(email) {
         .then((result) => result.rows[0]);
 }
 
+/* ------- PASSWORD ------- */
+
 function updateUserPassword({ email, password }) {
     return hash(password).then((password_hash) => {
         db.query(

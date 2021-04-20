@@ -2,6 +2,8 @@ import { Component } from "react";
 import axios from "./axios";
 import FriendButton from "./Friendbutton";
 
+const defaultImageUrl = "https://via.placeholder.com/150";
+
 class OtherProfile extends Component {
     constructor(props) {
         super(props);
@@ -51,15 +53,15 @@ class OtherProfile extends Component {
     render() {
         return (
             <>
-                <div className="otherProfile">
-                    <p>Profile of user: {this.state.user.id}</p>
-                    <p>
+                <div className="userProfileCard">
+                    <img src={this.state.user.profile_url || defaultImageUrl} />
+
+                    <h2>
                         {this.state.user.firstname} {this.state.user.lastname}
-                    </p>
+                    </h2>
                     <p>{this.state.user.bio || "No bio yet"}</p>
-                    <img src={this.state.user.profile_url} />
+                    <FriendButton id={this.props.id} />
                 </div>
-                <FriendButton id={this.props.id} />
             </>
         );
     }

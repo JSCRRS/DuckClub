@@ -57,7 +57,7 @@ export default function Friends() {
     return (
         <section className="friends">
             <section>
-                <h3>These people want to be your friends</h3>
+                <h2>These people want to be your friends</h2>
                 <ul>
                     {incoming.map((element) => (
                         <li key={element.sender_id}>
@@ -76,6 +76,7 @@ export default function Friends() {
                             </Link>
 
                             <button
+                                className="profileButton"
                                 onClick={() =>
                                     onBeFriendsClick(element.sender_id)
                                 }
@@ -87,7 +88,7 @@ export default function Friends() {
                 </ul>
             </section>
             <section>
-                <h3>These people are currently your friends</h3>
+                <h2>These people are currently your friends</h2>
                 <ul>
                     {accepted.map((element) => (
                         <li key={element.user.id}>
@@ -106,6 +107,7 @@ export default function Friends() {
                             </Link>
 
                             <button
+                                className="profileButton"
                                 onClick={() =>
                                     onDeleteFriendsClick(element.user.id)
                                 }

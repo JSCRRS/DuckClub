@@ -82,54 +82,84 @@ class ResetPassword extends Component {
 
     renderStepOne() {
         return (
-            <div className="reset-password">
-                <form
-                    className="form step-one"
-                    onSubmit={this.onSendVerificationSubmit}
-                >
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Please type your email"
-                        onChange={this.onInputChange}
-                        required
-                    />
-                    <button type="submit">Send verification code</button>
-                </form>
-            </div>
+            <section className="welcome">
+                <div className="welcome-intro">
+                    <h1>Duck Club</h1>
+                    <p>
+                        Soon you can again participate in serious discussions.
+                    </p>
+                </div>
+                <div className="reset-password generalUserForm">
+                    <h2>Reset your Password</h2>
+                    <form
+                        className="form step-one"
+                        onSubmit={this.onSendVerificationSubmit}
+                    >
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Please type your email"
+                            onChange={this.onInputChange}
+                            required
+                        />
+                        <button type="submit">Send verification code</button>
+                    </form>
+                    <Link to="/login">Go back to login here</Link>
+                </div>
+            </section>
         );
     }
 
     renderStepTwo() {
         return (
-            <div className="reset-password">
-                <form className="form step-two" onSubmit={this.onCodeSubmit}>
-                    <input
-                        type="text"
-                        name="code"
-                        placeholder="Please enter the code you received."
-                        onChange={this.onInputChange}
-                        required
-                    />
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Please enter a new password."
-                        onChange={this.onInputChange}
-                        required
-                    />
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
+            <section className="welcome">
+                <div className="welcome-intro">
+                    <h1>Duck Club</h1>
+                    <p>
+                        Soon you can again participate in serious discussions.
+                    </p>
+                </div>
+                <div className="reset-password generalUserForm">
+                    <h3>You received an email.</h3>
+                    <form
+                        className="form step-two"
+                        onSubmit={this.onCodeSubmit}
+                    >
+                        <input
+                            type="text"
+                            name="code"
+                            value=""
+                            placeholder="Please enter the code."
+                            onChange={this.onInputChange}
+                            required
+                        />
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Your new password."
+                            onChange={this.onInputChange}
+                            required
+                        />
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </section>
         );
     }
     renderStepThree() {
         return (
-            <div className="reset-password">
-                <p>Reset Password</p>
-                <p className="success">Success!</p>
-                <Link to="/login">Login with your new Password.</Link>
-            </div>
+            <section className="welcome">
+                <div className="welcome-intro">
+                    <h1>Duck Club</h1>
+                    <p>"Quack." - Ducky McDuckface</p>
+                </div>
+                <div className="reset-password generalUserForm">
+                    <h2 className="success">Success!</h2>
+                    <Link className="reset-link" to="/login">
+                        Login with your new Password here
+                    </Link>
+                </div>
+            </section>
         );
     }
 }

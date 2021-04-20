@@ -1,0 +1,3 @@
+-   Navigation für "Find People" (burger)
+-   einheitliche Positionierung Register, Login, ResetPassword
+-   "/friends" --> manchmal ist das Bild nicht mittig (Samuel Kinnaman)
